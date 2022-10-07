@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 30px;
+  /* background-image: url("img/bg.jpg"); */
+  background-color: purple;
+  color: #fff;
+}
+
+h1 {
+  text-align: center;
+  font-family: "Rum Raisin", sans-serif;
+  font-size: 4rem;
+  letter-spacing: 0.1rem;
+}
+
+#heading {
+  -webkit-text-fill-color: purple;
+  -webkit-text-stroke-width: 0.1px;
+  -webkit-text-stroke-color: greenyellow;
+}
+
+.logo {
+  text-align: center;
+}
+
+.logo img {
+  height: 18rem;
+}
+
+.main-wrapper {
+  max-width: 650px;
+  margin: 0 auto;
+  border: 5px solid yellowgreen;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+form div {
+  padding: 10px 0;
+}
+
+form div label {
+  display: block;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+form div input {
+  height: 2.5rem;
+  width: 100%;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 2px solid white;
+  background-color: greenyellow;
+  color: black;
+  padding: 0 10px;
+  outline: none;
+}
+
+form div button,
+.registerDiv button {
+  cursor: pointer;
+  background-color: yellowgreen;
+  padding: 10px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 15px;
+}
+
+.registerDiv {
+  text-align: center;
+  margin-top: 20px;
+}
+.registerDiv p {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
