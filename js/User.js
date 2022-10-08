@@ -15,15 +15,19 @@ class User {
     data = JSON.stringify(data);
 
     fetch(this.api_url + "/users", {
-      method: "DELETE",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: data,
     })
-      .then((response) => response.json)
+      .then((response) => response.json())
       .then((data) => {
-        console.log("User created");
-      });
+        let session = new Session();
+        session.user_id = data.id;
+        session.startSession();
+        window.location.href = "witch.html";
+      })
+      .catch((err) => console.log());
   }
 }
