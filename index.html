@@ -43,7 +43,42 @@
 
     <div class="registerDiv">
       <p>Don't have an account?</p>
-      <button id="register">Register</button>
+      <button id="registration">Register</button>
     </div>
+
+    <div class="custom-modal">
+      <button id="closeModal">X</button>
+
+      <form id="registrationForm">
+        <h2>Registration</h2>
+
+        <div>
+          <label for="username">Username:</label>
+          <input id="username" type="text" name="registerUsername" />
+        </div>
+
+        <div>
+          <label for="email">Email address:</label>
+          <input id="email" type="email" name="registerEmail" />
+        </div>
+
+        <div>
+          <label for="passsword">Password:</label>
+          <input id="password" type="password" name="registerPassword" />
+        </div>
+
+        <div>
+          <label for="repeat">Repeat password:</label>
+          <input id="repeat" type="password" name="registerRepeat" />
+        </div>
+        <div>
+          <button id="register">Register</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="/js/User.js" type="text/javascript"></script>
+    <script src="/js/Validator.js" type="text/javascript"></script>
+    <script src="/js/app.js" type="text/javascript"></script>
   </body>
 </html>
