@@ -118,3 +118,39 @@ form div button,
   font-size: 1.5rem;
   cursor: pointer;
 }
+
+.inner-container {
+  border: 5px solid yellowgreen;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.inner-container #profileImg {
+  width: 75%;
+  border-radius: 100%;
+}
+
+.left-inner {
+  /* background-color: rgb(150, 3, 187); */
+  background-color: rgb(160, 9, 160);
+  word-break: break-all;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.left-inner p,
+.left-inner button {
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+
+.left-inner button {
+  cursor: pointer;
+  background-color: yellowgreen;
+  padding: 5px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 15px;
+}
