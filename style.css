@@ -154,3 +154,28 @@ form div button,
   border: 2px solid white;
   border-radius: 15px;
 }
+
+.inner-container.right-inner form {
+  display: flex;
+  height: 70px;
+}
+
+.inner-container.right-inner form textarea {
+  width: 85%;
+  /* height: 100%; */
+  resize: none;
+  border: 0;
+  border-radius: 15px 0 0 15px;
+  outline-color: yellowgreen;
+  padding: 10px;
+}
+
+.inner-container.right-inner form button {
+  width: 15%;
+  border: 0;
+  border-radius: 0 15px 15px 0;
+  background-color: yellowgreen;
+  color: white;
+  font-weight: bold;
+  font-size: large;
+}

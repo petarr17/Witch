@@ -31,6 +31,15 @@ class User {
       .catch((err) => console.log());
   }
 
+  async get(id) {
+    let api = this.api_url + "/users/" + id;
+
+    let response = await fetch(api);
+    let data = await response.json();
+
+    return data;
+  }
+
   login() {
     fetch(this.api_url + "/users")
       .then((response) => response.json())
