@@ -30,4 +30,28 @@ class User {
       })
       .catch((err) => console.log());
   }
+
+  login() {
+    fetch(this.api_url + "/users")
+      .then((response) => response.json())
+      .then((data) => {
+        let loginpoint = 0;
+        data.forEach((dataUser) => {
+          if (
+            dataUser.email === this.email &&
+            dataUser.password === this.password
+          ) {
+            loginpoint = 1;
+            let session2 = new Session();
+            session2.user_id = dataUser.id;
+            session2.startSession();
+            window.location.href = "witch.html";
+          }
+        });
+
+        if (loginpoint === 0) {
+          alert("Wrong email or password!");
+        }
+      });
+  }
 }

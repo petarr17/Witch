@@ -57,3 +57,15 @@ document.querySelector("#register").addEventListener("click", function (e) {
     alert("Fields are not correctly filled!");
   }
 });
+
+document.querySelector("#loginBtn").addEventListener("click", function (e) {
+  e.preventDefault();
+
+  let email = document.querySelector("#login_email").value;
+  let password = document.querySelector("#password_email").value;
+
+  let user = new User();
+  user.email = email;
+  user.password = password;
+  user.login();
+});
