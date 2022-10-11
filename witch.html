@@ -20,6 +20,7 @@
     <title>Witch - Homepage</title>
   </head>
   <body>
+    <img src="/img//logo.png" id="logo" />
     <div class="container">
       <div class="row">
         <div class="col-md-3">
@@ -36,20 +37,60 @@
 
         <div class="col-md-9">
           <div class="inner-container right-inner">
-            <form class="postForm">
+            <form id="postForm">
               <textarea
                 id="postContent"
                 placeholder="Post something..."
               ></textarea>
               <button>Post</button>
             </form>
+
+            <div id="allPostsWrapper"></div>
           </div>
         </div>
       </div>
     </div>
 
+    <div class="custom-modal">
+      <button id="closeModal">X</button>
+
+      <form id="editForm">
+        <h2>Edit your profile</h2>
+
+        <div>
+          <label for="edit_username">Username:</label>
+          <input
+            id="edit_username"
+            type="text"
+            name="registerUsername"
+            autocomplete="off"
+          />
+        </div>
+
+        <div>
+          <label for="edit_email">Email address:</label>
+          <input
+            id="edit_email"
+            type="email"
+            name="registerEmail"
+            autocomplete="off"
+          />
+        </div>
+        <div>
+          <button id="register">Change</button>
+        </div>
+      </form>
+
+      <hr />
+
+      <button id="deleteProfile">Delete Profile</button>
+    </div>
+
+    <script src="/js/Validator.js" type="text/javascript"></script>
     <script src="/js/Session.js" type="text/javascript"></script>
     <script src="/js/User.js" type="text/javascript"></script>
+    <script src="/js/Comments.js" type="text/javascript"></script>
+    <script src="/js/Post.js" type="text/javascript"></script>
     <script src="/js/witch.js" type="text/javascript"></script>
   </body>
 </html>

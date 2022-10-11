@@ -63,4 +63,44 @@ class User {
         }
       });
   }
+
+  edit() {
+    let data = {
+      username: this.username,
+      email: this.email,
+    };
+
+    data = JSON.stringify(data);
+
+    let session = new Session();
+    session_id = session.getSession();
+
+    fetch(this.api_url + "/users/" + session_id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        window.location.href = "/witch.html";
+      });
+  }
+
+  delete() {
+    let session = new Session();
+    session_id = session.getSession();
+
+    fetch(this.api_url + "/users/" + session_id, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        let session = new Session();
+        session.destroySession();
+
+        window.location.href = "/";
+      });
+  }
 }
