@@ -140,14 +140,28 @@ async function getAllPosts() {
       let comments = new Comments();
       comments = await comments.get(post.id);
 
+      async function dataUser() {
+        let arr = [];
+
+        for (let i = 0; i < comments.length; i++) {
+          let userComment = new User();
+          userComment = await userComment.get(comments[i].user_id);
+          arr[i] = userComment.username;
+        }
+
+        return arr;
+      }
+
+      let userArr = await dataUser();
+
       // RESI OVO DA ISPISUJE IMENA KO JE KOMENTARISAO
       let comments_html = "";
       if (comments.length > 0) {
+        let i = 0;
         comments.forEach(async function (cmt) {
-          // let userComment = new User();
-          // userComment = await userComment.get(cmt.user_id);
-
-          comments_html += `<div class="single-comment"><b>:</b> ${cmt.content}</div>`;
+          let username = userArr[i];
+          i++;
+          comments_html += `<div class="single-comment"><b>${username} :</b> ${cmt.content}</div>`;
         });
       }
 
