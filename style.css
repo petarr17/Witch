@@ -21,8 +21,11 @@ body {
   .custom-modal {
     width: 90% !important ;
   }
-  .logo img {
+  .index .logo img {
     height: 12rem !important;
+  }
+  .index #heading {
+    -webkit-text-stroke-width: 1.1px;
   }
 }
 
