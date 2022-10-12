@@ -15,8 +15,11 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-  body {
+  .index {
     padding: 10px;
+  }
+  .custom-modal {
+    width: 90% !important ;
   }
 }
 
