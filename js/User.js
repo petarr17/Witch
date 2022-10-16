@@ -35,9 +35,10 @@ class User {
         let session = new Session();
         session.user_id = data.id;
         session.startSession();
+        this.hideLoader();
         window.location.href = "witch.html";
       })
-      .catch((err) => this.hideLoader());
+      .catch((err) => console.log(err));
   }
 
   async get(id) {
