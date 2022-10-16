@@ -5,7 +5,16 @@ class User {
   password = "";
   api_url = "https://634095bf16ffb7e275c2fad2.mockapi.io";
 
+  loader = document.querySelector(".lds-ring");
+  showLoader() {
+    this.loader.classList.add("show");
+  }
+  hideLoader() {
+    this.loader.classList.remove("show");
+  }
+
   create() {
+    this.showLoader();
     let data = {
       username: this.username,
       email: this.email,
@@ -28,7 +37,7 @@ class User {
         session.startSession();
         window.location.href = "witch.html";
       })
-      .catch((err) => console.log());
+      .catch((err) => this.hideLoader());
   }
 
   async get(id) {
@@ -50,10 +59,12 @@ class User {
             dataUser.email === this.email &&
             dataUser.password === this.password
           ) {
+            this.showLoader();
             loginpoint = 1;
             let session2 = new Session();
             session2.user_id = dataUser.id;
             session2.startSession();
+            this.hideLoader();
             window.location.href = "witch.html";
           }
         });
@@ -65,6 +76,7 @@ class User {
   }
 
   edit() {
+    this.showLoader();
     let data = {
       username: this.username,
       email: this.email,
@@ -84,11 +96,13 @@ class User {
     })
       .then((response) => response.json())
       .then((data) => {
-        window.location.href = "/witch.html";
+        this.hideLoader();
+        // window.location.href = "/witch.html";
       });
   }
 
   delete() {
+    this.showLoader();
     let session = new Session();
     session_id = session.getSession();
 
@@ -99,7 +113,7 @@ class User {
       .then((data) => {
         let session = new Session();
         session.destroySession();
-
+        this.hideLoader();
         window.location.href = "/";
       });
   }

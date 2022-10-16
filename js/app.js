@@ -1,7 +1,7 @@
-let session = new Session();
-if (session.getSession() !== "") {
-  window.location.href = "witch.html";
-}
+// let session = new Session();
+// if (session.getSession() !== "") {
+//   window.location.href = "witch.html";
+// }
 
 const registrationBtn = document.querySelector("#registration");
 const closeModal = document.querySelector("#closeModal");

@@ -4,7 +4,16 @@ class Comments {
   content = "";
   api_url = "https://634095bf16ffb7e275c2fad2.mockapi.io";
 
+  loader = document.querySelector(".lds-ring");
+  showLoader() {
+    this.loader.classList.add("show");
+  }
+  hideLoader() {
+    this.loader.classList.remove("show");
+  }
+
   create() {
+    this.showLoader();
     let data = {
       post_id: this.post_id,
       user_id: this.user_id,
@@ -22,11 +31,12 @@ class Comments {
     })
       .then((response) => response.json())
       .then((data) => {
-        alert("Comment posted!");
+        this.hideLoader();
       });
   }
 
   async get(post_id) {
+    this.showLoader();
     let response = await fetch(this.api_url + "/comments");
     let data = await response.json();
     let post_comments = [];
@@ -38,7 +48,7 @@ class Comments {
         i++;
       }
     });
-
+    this.hideLoader();
     return post_comments;
   }
 }

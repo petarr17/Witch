@@ -3,15 +3,26 @@ class Post {
   content = "";
   user_id = "";
   likes = "";
+  date = "";
   api_url = "https://634095bf16ffb7e275c2fad2.mockapi.io";
 
+  loader = document.querySelector(".lds-ring");
+  showLoader() {
+    this.loader.classList.add("show");
+  }
+  hideLoader() {
+    this.loader.classList.remove("show");
+  }
+
   async create() {
+    this.showLoader();
     let session = new Session();
     session_id = session.getSession();
 
     let data = {
       user_id: session_id,
       content: this.content,
+      date: this.date,
       likes: 0,
     };
 
@@ -27,23 +38,27 @@ class Post {
 
     data = await response.json();
 
+    this.hideLoader();
     return data;
   }
 
   async allposts() {
+    this.showLoader();
     let respose = await fetch(this.api_url + "/posts");
     let data = respose.json();
-
+    this.hideLoader();
     return data;
   }
 
   delete(post_id) {
+    this.showLoader();
     fetch(this.api_url + "/posts/" + post_id, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => {
-        alert("Post deleted!");
+        this.hideLoader();
+        // alert("Post deleted!");
       });
   }
 

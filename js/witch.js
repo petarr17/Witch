@@ -1,22 +1,34 @@
 let session = new Session();
 session_id = session.getSession();
 
-if (session_id !== "") {
-  async function populateData() {
-    let user = new User();
-    let data = await user.get(session_id);
+async function populateData() {
+  let user = new User();
+  let data = await user.get(session_id);
 
-    document.querySelector("#username").textContent = data["username"];
-    document.querySelector("#email").textContent = data["email"];
+  document.querySelector("#username").textContent = data["username"];
+  document.querySelector("#email").textContent = data["email"];
 
-    document.querySelector("#edit_username").value = data["username"];
-    document.querySelector("#edit_email").value = data["email"];
-  }
-
-  populateData();
-} else {
-  window.location.href = "/";
+  document.querySelector("#edit_username").value = data["username"];
+  document.querySelector("#edit_email").value = data["email"];
 }
+populateData();
+
+// if (session_id !== "") {
+//   async function populateData() {
+//     let user = new User();
+//     let data = await user.get(session_id);
+
+//     document.querySelector("#username").textContent = data["username"];
+//     document.querySelector("#email").textContent = data["email"];
+
+//     document.querySelector("#edit_username").value = data["username"];
+//     document.querySelector("#edit_email").value = data["email"];
+//   }
+
+//   populateData();
+// } else {
+//   window.location.href = "/";
+// }
 
 document.querySelector("#logOut").addEventListener("click", function (e) {
   e.preventDefault();
@@ -49,6 +61,20 @@ let config = {
 
 let validator = new Validator(config, "#editForm");
 
+let editbtn = document.querySelector("#register");
+editbtn.disabled = true;
+
+document
+  .querySelector("#edit_username")
+  .addEventListener("input", function (e) {
+    let username = document.querySelector("#username").textContent;
+    if (e.target.value !== username) {
+      editbtn.disabled = false;
+    } else {
+      editbtn.disabled = true;
+    }
+  });
+
 document.querySelector("#editForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -56,8 +82,12 @@ document.querySelector("#editForm").addEventListener("submit", function (e) {
     let user = new User();
     user.username = document.querySelector("#edit_username").value;
     user.email = document.querySelector("#edit_email").value;
-
     user.edit();
+    document.querySelector("#username").textContent =
+      document.querySelector("#edit_username").value;
+    document.querySelector("#allPostsWrapper").innerHTML = "";
+    getAllPosts();
+    document.querySelector(".custom-modal").style.display = "none";
   } else {
     alert("Fields are not correctly filled!");
   }
@@ -82,8 +112,11 @@ document.querySelector("#postForm").addEventListener("submit", function (e) {
   async function createPost() {
     let content = document.querySelector("#postContent").value;
     document.querySelector("#postContent").value = "";
+
+    let today = new Date().toLocaleDateString();
     let post = new Post();
     post.content = content;
+    post.date = today;
     post = await post.create();
 
     let current_user = new User();
@@ -105,7 +138,10 @@ document.querySelector("#postForm").addEventListener("submit", function (e) {
     <hr />
 
     <div class="post-actions">
+    <div>
     <p><b>Author:</b> ${current_user.username}</p>
+    <p><b>Date:</b> ${post.date}</p>
+    </div>
     <div>
     <button onclick="likePost(this)" class="like-post like-btn"><span>${post.likes}</span> Likes</button>
     <button onclick="comments(this)" class="comment-btn">Comments</button>
@@ -181,7 +217,10 @@ async function getAllPosts() {
       <hr />
   
       <div class="post-actions">
+      <div>
       <p><b>Author:</b> ${user.username}</p>
+      <p><b>Date:</b> ${post.date}</p>
+      </div>
       <div>
       <button onclick="likePost(this)" class="like-post like-btn"><span>${post.likes}</span> Likes</button>
       <button onclick="comments(this)" class="comment-btn">Comments</button>
