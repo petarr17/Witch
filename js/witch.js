@@ -108,31 +108,32 @@ document
 
 document.querySelector("#postForm").addEventListener("submit", function (e) {
   e.preventDefault();
+  if (document.querySelector("#postContent").value.trim() === "") return;
+  else {
+    async function createPost() {
+      let content = document.querySelector("#postContent").value;
+      document.querySelector("#postContent").value = "";
 
-  async function createPost() {
-    let content = document.querySelector("#postContent").value;
-    document.querySelector("#postContent").value = "";
+      let today = new Date().toLocaleDateString();
+      let post = new Post();
+      post.content = content;
+      post.date = today;
+      post = await post.create();
 
-    let today = new Date().toLocaleDateString();
-    let post = new Post();
-    post.content = content;
-    post.date = today;
-    post = await post.create();
+      let current_user = new User();
+      current_user = await current_user.get(session_id);
 
-    let current_user = new User();
-    current_user = await current_user.get(session_id);
+      let remove_post_btn = "";
 
-    let remove_post_btn = "";
+      if (session_id === post.user_id) {
+        remove_post_btn =
+          '<button class="remove-btn" onclick="removePost(this)">Remove</button>';
+      }
 
-    if (session_id === post.user_id) {
-      remove_post_btn =
-        '<button class="remove-btn" onclick="removePost(this)">Remove</button>';
-    }
+      let html = document.querySelector("#allPostsWrapper").innerHTML;
 
-    let html = document.querySelector("#allPostsWrapper").innerHTML;
-
-    document.querySelector("#allPostsWrapper").innerHTML =
-      `<div class="single-post" data-post-id=${post.id}>
+      document.querySelector("#allPostsWrapper").innerHTML =
+        `<div class="single-post" data-post-id=${post.id}>
     <div class="post-content">${post.content}</div>
     
     <hr />
@@ -159,9 +160,10 @@ document.querySelector("#postForm").addEventListener("submit", function (e) {
     
    
     ` + html;
-  }
+    }
 
-  createPost();
+    createPost();
+  }
 });
 
 async function getAllPosts() {
@@ -278,30 +280,31 @@ const likePost = (el) => {
 const commentPost = (el) => {
   el.preventDefault();
   let btn = el.target;
-
-  btn.setAttribute("disabled", "true");
-
   let main_post = btn.closest(".single-post");
-  let post_id = main_post.getAttribute("data-post-id");
-
   let commentValue = main_post.querySelector("input").value;
+  if (commentValue.trim() === "") return;
+  else {
+    btn.setAttribute("disabled", "true");
 
-  main_post.querySelector("input").value = "";
+    let post_id = main_post.getAttribute("data-post-id");
 
-  async function commentUser() {
-    let user = new User();
-    user = await user.get(session_id);
+    main_post.querySelector("input").value = "";
 
-    main_post.querySelector(
-      ".comments"
-    ).innerHTML += `<div class="single-comment"><b>${user.username} :</b> ${commentValue}</div>`;
+    async function commentUser() {
+      let user = new User();
+      user = await user.get(session_id);
+
+      main_post.querySelector(
+        ".comments"
+      ).innerHTML += `<div class="single-comment"><b>${user.username} :</b> ${commentValue}</div>`;
+    }
+
+    commentUser();
+
+    let comment = new Comments();
+    comment.content = commentValue;
+    comment.post_id = post_id;
+    comment.user_id = session_id;
+    comment.create();
   }
-
-  commentUser();
-
-  let comment = new Comments();
-  comment.content = commentValue;
-  comment.post_id = post_id;
-  comment.user_id = session_id;
-  comment.create();
 };
