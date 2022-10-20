@@ -9,7 +9,6 @@ async function populateData() {
   document.querySelector("#email").textContent = data["email"];
 
   document.querySelector("#edit_username").value = data["username"];
-  document.querySelector("#edit_email").value = data["email"];
 }
 populateData();
 
@@ -51,28 +50,51 @@ let config = {
     minlength: 5,
     maxlength: 50,
   },
-  registerEmail: {
-    required: true,
-    email: true,
-    minlength: 5,
-    maxlength: 50,
-  },
 };
 
 let validator = new Validator(config, "#editForm");
 
 let editbtn = document.querySelector("#register");
 editbtn.disabled = true;
+let editpoens1 = 0;
+let editpoens2 = 0;
 
 document
   .querySelector("#edit_username")
   .addEventListener("input", function (e) {
     let username = document.querySelector("#username").textContent;
     if (e.target.value !== username) {
-      editbtn.disabled = false;
+      // editbtn.disabled = false;
+      if (editpoens1 === 0) editpoens1++;
     } else {
-      editbtn.disabled = true;
+      // editbtn.disabled = true;
+      if (editpoens1 > 0) editpoens1--;
     }
+
+    console.log(editpoens1, editpoens2);
+    if (editpoens1 === 1 && editpoens2 === 1) editbtn.disabled = false;
+    else editbtn.disabled = true;
+  });
+
+document
+  .querySelector("#edit_password")
+  .addEventListener("input", function (e) {
+    async function getPass() {
+      let user1 = new User();
+      user1 = await user1.get(session_id);
+      let pass = await user1.password;
+      if (e.target.value === pass) {
+        if (editpoens2 === 0) editpoens2++;
+        console.log(editpoens2);
+      } else {
+        if (editpoens2 > 0) editpoens2--;
+      }
+      console.log(editpoens1, editpoens2);
+
+      if (editpoens1 === 1 && editpoens2 === 1) editbtn.disabled = false;
+      else editbtn.disabled = true;
+    }
+    getPass();
   });
 
 document.querySelector("#editForm").addEventListener("submit", function (e) {
