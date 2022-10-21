@@ -57,7 +57,7 @@ let validator = new Validator(config, "#editForm");
 let editbtn = document.querySelector("#register");
 editbtn.disabled = true;
 let editpoens1 = false;
-let editpoens2 = 0;
+let editpoens2 = false;
 
 document
   .querySelector("#edit_username")
@@ -190,13 +190,13 @@ async function getAllPosts() {
   let all_posts = new Post();
   all_posts = await all_posts.allposts();
 
-  all_posts.forEach(function (post) {
-    async function getPostUser() {
+  async function getPostUser() {
+    for (let j = all_posts.length - 1; j >= 0; j--) {
       let user = new User();
-      user = await user.get(post.user_id);
+      user = await user.get(all_posts[j].user_id);
 
       let comments = new Comments();
-      comments = await comments.get(post.id);
+      comments = await comments.get(all_posts[j].id);
 
       async function dataUser() {
         let arr = [];
@@ -212,7 +212,6 @@ async function getAllPosts() {
 
       let userArr = await dataUser();
 
-      // RESI OVO DA ISPISUJE IMENA KO JE KOMENTARISAO
       let comments_html = "";
       if (comments.length > 0) {
         let i = 0;
@@ -225,26 +224,26 @@ async function getAllPosts() {
 
       let remove_post_btn = "";
 
-      if (session_id === post.user_id) {
+      if (session_id === all_posts[j].user_id) {
         remove_post_btn =
           '<button class="remove-btn" onclick="removePost(this)">Remove</button>';
       }
 
       let html = document.querySelector("#allPostsWrapper").innerHTML;
+      const element = document.createElement("div");
 
-      document.querySelector("#allPostsWrapper").innerHTML =
-        `<div class="single-post" data-post-id=${post.id}>
-      <div class="post-content">${post.content}</div>
+      element.innerHTML = `<div class="single-post" data-post-id=${all_posts[j].id}>
+      <div class="post-content">${all_posts[j].content}</div>
       
       <hr />
   
       <div class="post-actions">
       <div>
       <p><b>Author:</b> ${user.username}</p>
-      <p><b>Date:</b> ${post.date}</p>
+      <p><b>Date:</b> ${all_posts[j].date}</p>
       </div>
       <div>
-      <button onclick="likePost(this)" class="like-post like-btn"><span>${post.likes}</span> Likes</button>
+      <button onclick="likePost(this)" class="like-post like-btn"><span>${all_posts[j].likes}</span> Likes</button>
       <button onclick="comments(this)" class="comment-btn">Comments</button>
       ${remove_post_btn}
       </div>
@@ -258,13 +257,14 @@ async function getAllPosts() {
       ${comments_html}
       </div>
       </div>
-      
+      ${j}
      
-      ` + html;
-    }
+      `;
 
-    getPostUser();
-  });
+      document.querySelector("#allPostsWrapper").appendChild(element);
+    }
+  }
+  await getPostUser();
 }
 
 getAllPosts();
