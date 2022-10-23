@@ -80,7 +80,6 @@ class User {
     this.showLoader();
     let data = {
       username: this.username,
-      email: this.email,
     };
 
     data = JSON.stringify(data);
@@ -98,7 +97,6 @@ class User {
       .then((response) => response.json())
       .then((data) => {
         this.hideLoader();
-        // window.location.href = "/witch.html";
       });
   }
 

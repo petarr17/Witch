@@ -275,6 +275,10 @@ form div button,
   font-weight: bold;
 }
 
+.blockClass {
+  display: block !important;
+}
+
 #allPostsWrapper .single-post .comments {
   margin-top: 10px;
   display: none;

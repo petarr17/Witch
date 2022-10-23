@@ -12,23 +12,6 @@ async function populateData() {
 }
 populateData();
 
-// if (session_id !== "") {
-//   async function populateData() {
-//     let user = new User();
-//     let data = await user.get(session_id);
-
-//     document.querySelector("#username").textContent = data["username"];
-//     document.querySelector("#email").textContent = data["email"];
-
-//     document.querySelector("#edit_username").value = data["username"];
-//     document.querySelector("#edit_email").value = data["email"];
-//   }
-
-//   populateData();
-// } else {
-//   window.location.href = "/";
-// }
-
 document.querySelector("#logOut").addEventListener("click", function (e) {
   e.preventDefault();
 
@@ -64,53 +47,40 @@ document
   .addEventListener("input", function (e) {
     let username = document.querySelector("#username").textContent;
     if (e.target.value !== username) {
-      // editbtn.disabled = false;
       editpoens1 = true;
     } else {
-      // editbtn.disabled = true;
       editpoens1 = false;
     }
-
-    console.log(editpoens1, editpoens2);
-    if (editpoens1 === true && editpoens2 === true) editbtn.disabled = false;
+    if (editpoens1 === true) editbtn.disabled = false;
     else editbtn.disabled = true;
-  });
-
-document
-  .querySelector("#edit_password")
-  .addEventListener("input", function (e) {
-    async function getPass() {
-      let user1 = new User();
-      user1 = await user1.get(session_id);
-      let pass = await user1.password;
-      if (e.target.value === pass) {
-        editpoens2 = true;
-      } else {
-        editpoens2 = false;
-      }
-
-      if (editpoens1 === true && editpoens2 === true) editbtn.disabled = false;
-      else editbtn.disabled = true;
-    }
-    getPass();
   });
 
 document.querySelector("#editForm").addEventListener("submit", function (e) {
   e.preventDefault();
-
-  if (validator.validationPassed()) {
-    let user = new User();
-    user.username = document.querySelector("#edit_username").value;
-    user.email = document.querySelector("#edit_email").value;
-    user.edit();
-    document.querySelector("#username").textContent =
-      document.querySelector("#edit_username").value;
-    document.querySelector("#allPostsWrapper").innerHTML = "";
-    getAllPosts();
-    document.querySelector(".custom-modal").style.display = "none";
-  } else {
-    alert("Fields are not correctly filled!");
+  async function getPass() {
+    let user1 = new User();
+    user1 = await user1.get(session_id);
+    let pass = await user1.password;
+    if (document.querySelector("#edit_password").value === pass) {
+      editpoens2 = true;
+    } else {
+      editpoens2 = false;
+    }
+    if (validator.validationPassed() && editpoens2 === true) {
+      let user = new User();
+      user.username = document.querySelector("#edit_username").value;
+      user.edit();
+      document.querySelector("#username").textContent =
+        document.querySelector("#edit_username").value;
+      document.querySelector("#allPostsWrapper").innerHTML = "";
+      getAllPosts();
+      document.querySelector(".custom-modal").style.display = "none";
+      document.querySelector("#edit_password").value = "";
+    } else {
+      alert("Something went wrong!");
+    }
   }
+  getPass();
 });
 
 document
@@ -257,7 +227,7 @@ async function getAllPosts() {
       ${comments_html}
       </div>
       </div>
-      ${j}
+      
      
       `;
 
@@ -271,7 +241,8 @@ getAllPosts();
 
 const comments = (btn) => {
   let main_post = btn.closest(".single-post");
-  main_post.querySelector(".comments").style.display = "block";
+  let comments = main_post.querySelector(".comments");
+  comments.classList.toggle("blockClass");
 };
 
 const removePost = (el) => {
